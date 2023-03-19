@@ -5,6 +5,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private CharacterController characterController;
+    private const float GRAVITY = -9.81f;
+    private Vector3 gravityVelocity = Vector3.zero;
 
     private void Awake()
     {
@@ -40,15 +42,20 @@ public class Player : MonoBehaviour
     private void UpdateTransform()
     {
         Vector2 inputVector = GetNormalizedInputVector();
-        if (inputVector == Vector2.zero)
-        {
-            return;
-        }
         Vector3 direction = Quaternion.Euler(0f, Camera.main.transform.eulerAngles.y, 0f) * new Vector3(inputVector.x, 0f, inputVector.y);
-        const float ROTATE_SPEED = 10f;
-        transform.forward = Vector3.Slerp(transform.forward, direction, ROTATE_SPEED * Time.deltaTime);
+        if (direction != Vector3.zero)
+        {
+            const float ROTATE_SPEED = 10f;
+            transform.forward = Vector3.Slerp(transform.forward, direction, ROTATE_SPEED * Time.deltaTime);
+        }
         const float SPEED = 3f;
         characterController.Move(SPEED * Time.deltaTime * direction);
+        if (characterController.isGrounded)
+        {
+            gravityVelocity.y = 0f;
+        }
+        gravityVelocity.y += GRAVITY * Time.deltaTime;
+        characterController.Move(Time.deltaTime * gravityVelocity);
     }
 
     private Vector2 GetNormalizedInputVector()
