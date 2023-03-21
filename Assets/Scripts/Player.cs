@@ -6,7 +6,9 @@ public class Player : MonoBehaviour
 {
     private CharacterController characterController;
     private const float GRAVITY = -9.81f;
-    private Vector3 gravityVelocity = Vector3.zero;
+    private const float JUMP_SPEED = 6f;
+    private Vector3 upVelocity = Vector3.zero;
+    [SerializeField] private LayerMask groundLayerMask;
 
     private void Awake()
     {
@@ -50,12 +52,18 @@ public class Player : MonoBehaviour
         }
         const float SPEED = 3f;
         characterController.Move(SPEED * Time.deltaTime * direction);
-        if (characterController.isGrounded)
+
+        if (characterController.isGrounded && upVelocity.y <= 0f)
         {
-            gravityVelocity.y = 0f;
+            upVelocity.y = 0f;
         }
-        gravityVelocity.y += GRAVITY * Time.deltaTime;
-        characterController.Move(Time.deltaTime * gravityVelocity);
+        bool isGrounded = Physics.CheckSphere(transform.position, 0.2f, groundLayerMask);
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        {
+            upVelocity.y = JUMP_SPEED;
+        }
+        upVelocity.y += GRAVITY * Time.deltaTime;
+        characterController.Move(Time.deltaTime * upVelocity);
     }
 
     private Vector2 GetNormalizedInputVector()
