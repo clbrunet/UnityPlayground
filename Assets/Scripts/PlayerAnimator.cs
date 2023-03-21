@@ -6,14 +6,18 @@ public class PlayerAnimator : MonoBehaviour
 {
     private Animator animator;
     private const string ANIMATOR_VELOCITY = "Velocity";
+    private const string ANIMATOR_JUMP = "Jump";
 
     private float velocity = 0f;
     private const float VELOCITY_ACCELERATION = 2f;
     private const float VELOCITY_DECCELERATION = 5f;
 
+    private Player player;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        player = GetComponentInParent<Player>();
     }
 
     private void Update()
@@ -35,5 +39,7 @@ public class PlayerAnimator : MonoBehaviour
             }
         }
         animator.SetFloat(ANIMATOR_VELOCITY, velocity);
+
+        animator.SetBool(ANIMATOR_JUMP, player.IsJumping);
     }
 }

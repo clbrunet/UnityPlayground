@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class Player : MonoBehaviour
     private const float JUMP_SPEED = 6f;
     private Vector3 upVelocity = Vector3.zero;
     [SerializeField] private LayerMask groundLayerMask;
+
+    public bool IsJumping { get; private set; }
 
     private void Awake()
     {
@@ -58,9 +61,17 @@ public class Player : MonoBehaviour
             upVelocity.y = 0f;
         }
         bool isGrounded = Physics.CheckSphere(transform.position, 0.2f, groundLayerMask);
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        if (isGrounded)
         {
-            upVelocity.y = JUMP_SPEED;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                upVelocity.y = JUMP_SPEED;
+                IsJumping = true;
+            }
+            if (upVelocity.y <= 0f)
+            {
+                IsJumping = false;
+            }
         }
         upVelocity.y += GRAVITY * Time.deltaTime;
         characterController.Move(Time.deltaTime * upVelocity);
