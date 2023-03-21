@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private Vector3 upVelocity = Vector3.zero;
     [SerializeField] private LayerMask groundLayerMask;
 
+    public event Action OnJump;
     public bool IsJumping { get; private set; }
 
     private void Awake()
@@ -67,6 +68,7 @@ public class Player : MonoBehaviour
             {
                 upVelocity.y = JUMP_SPEED;
                 IsJumping = true;
+                OnJump?.Invoke();
             }
             if (upVelocity.y <= 0f)
             {

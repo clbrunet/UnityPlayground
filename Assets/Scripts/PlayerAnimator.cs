@@ -13,11 +13,13 @@ public class PlayerAnimator : MonoBehaviour
     private const float VELOCITY_DECCELERATION = 5f;
 
     private Player player;
+    public new ParticleSystem particleSystem;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         player = GetComponentInParent<Player>();
+        player.OnJump += Player_OnJump;
     }
 
     private void Update()
@@ -41,5 +43,10 @@ public class PlayerAnimator : MonoBehaviour
         animator.SetFloat(ANIMATOR_VELOCITY, velocity);
 
         animator.SetBool(ANIMATOR_JUMP, player.IsJumping);
+    }
+
+    private void Player_OnJump()
+    {
+        particleSystem.Play();
     }
 }
