@@ -56,7 +56,7 @@ Material:
     - _RippleDensity: 8
     - _RippleSlimness: 3
     - _RippleSpeed: 1
-    - _WaveHeight: 0.01
+    - _WaveHeight: 0.001
     - _WaveScale: 5
     - _WaveSpeed: 0.1
     m_Colors:
@@ -64,5 +64,5 @@ Material:
     - _Position: {r: 2.79, g: 2.85, b: 2.79, a: 0}
     - _RippleColor: {r: 0, g: 0.7144676, b: 0.8490566, a: 0}
     - _Tiling: {r: 100, g: 100, b: 0, a: 0}
-    - _WaveTiling: {r: 399.5, g: 1, b: 0, a: 0}
+    - _WaveTiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
